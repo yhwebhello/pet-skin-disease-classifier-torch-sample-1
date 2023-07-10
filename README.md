@@ -15,7 +15,7 @@ A Smartphone-Based Pet Skin Disease Classification Using MobileNet CNN
 | - | :- |
 |**작품사진**|**그림 1. 로고![Aspose Words 2eb32963-475c-4086-8d39-8b93ba59158c 003](https://github.com/ShinHyun-soo/pet-skin-disease-classifier-torch-sample/assets/69250097/8e564b5d-606a-475d-9954-8934d736c76f)**|
 
-||**그림 2. 앱 실행 화면![](Aspose.Words.2eb32963-475c-4086-8d39-8b93ba59158c.004.png)**|
+||**그림 2. 앱 실행 화면![Aspose Words 2eb32963-475c-4086-8d39-8b93ba59158c 004](https://github.com/ShinHyun-soo/pet-skin-disease-classifier-torch-sample/assets/69250097/687c3115-855f-49e0-80a8-4d9c8fec918a)**|
 | :- | - |
 
 
