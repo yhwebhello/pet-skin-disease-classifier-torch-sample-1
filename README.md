@@ -1,2 +1,2 @@
 # pet-skin-disease-classifier-torch-sample
-Pet skin disease classifier using mobileNet 
+A Smartphone-Based Pet Skin Disease Classification Using MobileNet CNN
