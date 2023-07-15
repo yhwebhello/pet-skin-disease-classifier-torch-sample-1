@@ -1,64 +1,50 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import time
-import urllib.request
-import os
+import requests
+from urllib.parse import urljoin
+from bs4 import BeautifulSoup
+
+def download_image(url, file_path):
+    # URL이 상대 경로인 경우 절대 URL로 변환
+    if not url.startswith("http"):
+        url = urljoin("https://www.google.com/", url)
+
+    response = requests.get(url, stream=True)
+    response.raise_for_status()
+
+    with open(file_path, "wb") as file:
+        for chunk in response.iter_content(chunk_size=8192):
+            file.write(chunk)
 
 
-def createDirectory(directory):
-    try:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-    except OSError:
-        print("Error: Failed to create the directory.")
+def get_image_urls(search_query, num_images):
+    # 검색어를 URL 인코딩하여 검색 쿼리 생성
+    query = search_query.replace(" ", "+")
+    url = f"https://www.google.com/search?q={query}&source=lnms&tbm=isch"
 
-def crawling_img(name):
-    driver = webdriver.Chrome()
-    driver.get("https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl")
-    elem = driver.find_element(By.NAME,"q")
-    elem.send_keys(name)
-    elem.send_keys(Keys.RETURN)
+    # User-Agent 설정 (크롬 브라우저 User-Agent)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    }
 
-    #
-    SCROLL_PAUSE_TIME = 1
-    # Get scroll height
-    last_height = driver.execute_script("return document.body.scrollHeight")  # 브라우저의 높이를 자바스크립트로 찾음
-    while True:
-        # Scroll down to bottom
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")  # 브라우저 끝까지 스크롤을 내림
-        # Wait to load page
-        time.sleep(SCROLL_PAUSE_TIME)
-        # Calculate new scroll height and compare with last scroll height
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        if new_height == last_height:
-            try:
-                driver.find_element(By.CSS_SELECTOR, ".mye4qd").click()
-            except:
-                break
-        last_height = new_height
+    # HTTP GET 요청
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
 
-    imgs = driver.driver.find_elements(By.CSS_SELECTOR, ".rg_i.Q4LuWd")
-    dir = ".\idols" + "\\" + name
+    # HTML 파싱
+    soup = BeautifulSoup(response.text, "html.parser")
 
-    createDirectory(dir) #폴더 생성
-    count = 1
-    for img in imgs:
-        try:
-            img.click()
-            time.sleep(2)
-            imgUrl = driver.find_element_by_xpath(
-                '//*[@id="Sva75c"]/div/div/div[3]/div[2]/c-wiz/div/div[1]/div[1]/div[2]/div[1]/a/img').get_attribute(
-                "src")
-            path = "C:\\Users\\User\\Downloads\\2091126 신현수\\pet-skin-disease-classifier-torch-sample" + name + "\\"
-            urllib.request.urlretrieve(imgUrl, path + name + str(count) + ".jpg")
-            count = count + 1
-            if count >= 260:
-                break
-        except:
-            pass
-    driver.close()
-idols = ["dog Impetigo"]
+    # 이미지 URL 추출
+    image_urls = []
+    for img in soup.find_all("img"):
+        image_urls.append(img["src"])
 
-for idol in idols:
-    crawling_img(idol)
+    return image_urls[:num_images]
+
+# 이미지 다운로드 예시
+search_query = "dog ring worm "
+num_images = 100
+image_urls = get_image_urls(search_query, num_images)
+
+for i, url in enumerate(image_urls):
+    file_path = f"image_{i+1}.jpg"
+    download_image(url, file_path)
+    print(f"다운로드 완료: {file_path}")
