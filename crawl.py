@@ -2,6 +2,7 @@ import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from datetime import datetime
+import time
 
 def download_image(url, file_path):
     # URL이 상대 경로인 경우 절대 URL로 변환
@@ -39,7 +40,7 @@ def get_image_urls(search_query, num_images):
     return image_urls[:num_images]
 
 # 이미지 다운로드 예시
-search_query = "강아지 링웜"
+search_query = "dog yeast infection img"
 num_images = 100
 image_urls = get_image_urls(search_query, num_images)
 
@@ -48,3 +49,4 @@ for i, url in enumerate(image_urls):
     file_path = f"image_{timestamp}_{i + 1}.jpg"
     download_image(url, file_path)
     print(f"다운로드 완료: {file_path}")
+
