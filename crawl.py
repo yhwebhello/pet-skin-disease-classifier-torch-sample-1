@@ -40,7 +40,7 @@ def get_image_urls(search_query, num_images):
     return image_urls[:num_images]
 
 # 이미지 다운로드 예시
-search_query = "dog yeast infection img"
+search_query = "dog impetigo img"
 num_images = 100
 image_urls = get_image_urls(search_query, num_images)
 
