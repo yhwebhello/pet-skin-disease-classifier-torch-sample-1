@@ -3,7 +3,7 @@ import imgaug.augmenters as iaa
 import cv2
 
 # 데이터 폴더 경로 설정
-folder_path = "./Impetigo"  # 이미지 파일들이 있는 폴더 경로를 지정하세요
+folder_path = "./Hot spot"  # 이미지 파일들이 있는 폴더 경로를 지정하세요
 
 # 이미지 증강 기법 정의
 augmenter = iaa.Sequential([
@@ -21,7 +21,7 @@ for image_file in image_files:
         image_path = os.path.join(folder_path, image_file)
         image = cv2.imread(image_path)
 
-        augmented_images = augmenter(images=[image])
+        augmented_images = augmenter(images=[image]) 
 
         # 이미지 증강된 결과 저장 sfdaweqr
         for i, augmented_image in enumerate(augmented_images):
