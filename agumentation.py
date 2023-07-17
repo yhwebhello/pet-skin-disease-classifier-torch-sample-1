@@ -23,7 +23,7 @@ for image_file in image_files:
 
         augmented_images = augmenter(images=[image])
 
-        # 이미지 증강된 결과 저장
+        # 이미지 증강된 결과 저장 sfdaweqr
         for i, augmented_image in enumerate(augmented_images):
             augmented_file_name = f"augmented_{image_file}_{i}.jpg"
             augmented_file_path = os.path.join(folder_path, augmented_file_name)
